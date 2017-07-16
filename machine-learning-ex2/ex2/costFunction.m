@@ -20,10 +20,11 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
+h = sigmoid(X*theta);
+J = (-y'*log(h) - (1-y)'*log(1-h))/m;
 
-
-
-
+%gradient descent for logistic regression
+grad = ((h-y)'*X)/m;
 
 
 

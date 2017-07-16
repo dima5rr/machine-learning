@@ -18,6 +18,15 @@ grad = zeros(size(theta));
 %               derivatives of the cost w.r.t. each parameter in theta
 
 
+h = sigmoid(X*theta);
+J = ((-y'*log(h) - (1-y)'*log(1-h))/m) + lambda * sum(theta.^2)/(2*m);
+
+%regularized gradient descent for logistic regression
+X1 = (X:,1)
+X1 = (X:,1)
+grad0 = ((h-y)'*X)/m;
+grad = ((h-y)'*X)/m + (lambda * theta)/m;
+
 
 
 
