@@ -17,20 +17,25 @@ grad = zeros(size(theta));
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
+% explicitly exclude the bias term θ0
+theta1 = theta(1);
+thetaN = theta(2:end);
 
 h = sigmoid(X*theta);
-J = ((-y'*log(h) - (1-y)'*log(1-h))/m) + lambda * sum(theta.^2)/(2*m);
+regularize_term = lambda * sum(thetaN.^2)/(2*m);
+J = ((-y'*log(h) - (1-y)'*log(1-h))/m) + regularize_term;
 
 %regularized gradient descent for logistic regression
-X1 = (X:,1)
-X1 = (X:,1)
-grad0 = ((h-y)'*X)/m;
-grad = ((h-y)'*X)/m + (lambda * theta)/m;
+X0 = X(:,1);
+XN = X(:,2:end);
 
+grad0 = ((h-y)'*X0)/m;
 
+regN = (lambda * thetaN)/m;
+gradN = (((h-y)'*XN)/m)' +regN;
 
-
-
+% grad = [grad0,gradN];
+grad = vertcat(grad0,gradN);
 % =============================================================
 
 end
