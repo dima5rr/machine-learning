@@ -62,30 +62,78 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% h = sigmoid(Theta1*a1);
+% J = (-y'*log(h) - (1-y)'*log(1-h))/m;
 
+% X with bias unit
+a1 = [ones(m, 1) X];
 
+% A1,A2,..An should have same nunmber of features (columns) as X
+z2 = a1*Theta1';
+a2 = sigmoid(z2);
+a2_with_bias = [ones(size(a2,1), 1) a2];
 
+z3 = a2_with_bias*Theta2';
+a3 = sigmoid(z3);
+hx = a3;
 
+J = 0;
 
+% map label matrix to 1s matrix
+yy = zeros(size(a3));
+for i=1:m
+    label = y(i);
+    yy(i,label) = 1;
+end
 
+% feedforward
 
+% cost
+cost = sum((-yy).*log(a3) - (1-yy).*log(1-a3), 2);
+J = sum(cost)/m;
 
+% regularized cost
+% explicitly exclude the bias term θ0
+theta1_wo_bias = Theta1(:,2:end);
+theta2_wo_bias = Theta2(:,2:end);
 
-
-
-
-
-
-
-
+p = (sum(sum(theta1_wo_bias.^2, 2)) + sum(sum(theta2_wo_bias.^2, 2)));
+regularize_term = lambda * p/(2*m);
+J = J + regularize_term;
 
 
 % -------------------------------------------------------------
+% backpropagation
+% 1)
+% feedforward
+% a1 a2 a3 4
+
+% 2)
+% For each output unit k in layer 3 (the output layer)
+d3 = a3-yy;
+
+% 3)
+% For the hidden layer l = 2
+d2_1 = d3*Theta2;
+d2 = d2_1(:,2:end).*sigmoidGradient(z2);
+
+% 4)
+delta1 = d2'*a1;
+delta2 = d3'*a2_with_bias;
+
+% 5)
+% regularization (without bias term)
+l1 = (lambda*Theta1(:,2:end))/m;
+delta1 = delta1/m + [zeros(size(l1,1), 1) l1];
+
+l2 = (lambda*Theta2(:,2:end))/m;
+delta2 = delta2/m + [zeros(size(l2,1), 1) l2];
+
+% In order to use optimizing functions such as "fminunc()",
+% we need to "unroll" all the elements and put them into one long vector
+grad = [reshape(delta1,[], 1); reshape(delta2, [], 1)];
 
 % =========================================================================
-
-% Unroll gradients
-grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
 
 end
