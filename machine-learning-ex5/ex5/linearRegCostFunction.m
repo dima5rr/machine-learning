@@ -21,6 +21,24 @@ grad = zeros(size(theta));
 
 
 
+theta1 = theta(1);
+thetaN = theta(2:end);
+
+% h = 1.0 ./ (1.0 + exp(-(X*theta)));
+h = X*theta;
+regularize_term = lambda * sum(thetaN.^2)/(2*m);
+J = sum((h-y).^2)/(2*m) + regularize_term;
+
+%regularized gradient descent for linear regression
+X0 = X(:,1);
+XN = X(:,2:end);
+
+grad0 = ((h-y)'*X0)/m;
+
+regN = (lambda * thetaN)/m;
+gradN = (((h-y)'*XN)/m)' +regN;
+
+grad = [grad0;gradN];
 
 
 

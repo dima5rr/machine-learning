@@ -15,8 +15,13 @@ X_poly = zeros(numel(X), p);
 %
 % 
 
+m = size(X,1);
 
-
+for x = (1:m)
+    for y = (1:p)
+        X_poly(x,y) = X(x)^y;
+    end    
+end
 
 
 

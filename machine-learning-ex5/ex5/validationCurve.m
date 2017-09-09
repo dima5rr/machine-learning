@@ -39,13 +39,15 @@ error_val = zeros(length(lambda_vec), 1);
 %
 %
 
-
-
-
-
-
-
-
+% error train/validation value is the same as cost
+for i = 1:length(lambda_vec)
+    lambda = lambda_vec(i);
+    % use regularization when training
+    theta = trainLinearReg(X,y,lambda);
+    % do not use regularization whne computing Jtrain, Jcv, Jtest
+    error_train(i) = linearRegCostFunction(X   , y   , theta, 0);
+    error_val(i)   = linearRegCostFunction(Xval, yval, theta, 0);
+end
 
 
 % =========================================================================

@@ -53,11 +53,25 @@ error_val   = zeros(m, 1);
 
 % ---------------------- Sample Solution ----------------------
 
+% When you are computing the training set error,
+% make sure you compute it on the training subset (i.e., X(1:n,:) and y(1:n)) 
+% (instead of the entire training set).
+% However, for the c. 
 
+mval = size(Xval, 1);
 
-
-
-
+for i = 1:m
+    % When you are computing the training set error, make sure you compute it on the training subset (i.e., X(1:n,:) and y(1:n)) (instead of the entire training set).
+    x_train = X(1:i,:);
+    y_train = y(1:i);
+    theta_train = trainLinearReg(x_train, y_train, lambda);
+    h = x_train*theta_train;
+    error_train(i) = sum((h-y_train).^2)/(2*i);
+    
+    % The cross validation error, you should compute it over the entire cross validation set. 
+    hval = Xval*theta_train;
+    error_val(i) = sum((hval-yval).^2)/(2*mval);
+end
 
 % -------------------------------------------------------------
 
