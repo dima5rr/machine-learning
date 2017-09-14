@@ -218,3 +218,27 @@ end
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+
+%% =========== Part 9: Computing test set error =============
+% For this optional (ungraded) exercise, 
+% you should compute the test error using the best value of λ you found.
+% In our cross validation, we obtained a test error of 3.8599 for λ = 3.
+
+lambda = 3;
+[lambda_vec, error_train, error_test] = ...
+    validationCurve(X_poly, y, X_poly_test, ytest);
+
+close all;
+plot(lambda_vec, error_train, lambda_vec, error_test);
+legend('Train', 'Test');
+xlabel('lambda');
+ylabel('Error');
+
+fprintf('lambda\t\tTrain Error\tTest Error\n');
+for i = 1:length(lambda_vec)
+	fprintf(' %f\t%f\t%f\n', ...
+            lambda_vec(i), error_train(i), error_test(i));
+end
+
+fprintf('Program paused. Press enter to continue.\n');
+pause;
