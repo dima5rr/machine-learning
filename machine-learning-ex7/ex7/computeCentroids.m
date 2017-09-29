@@ -26,10 +26,15 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+centroids_count = zeros(K,1);
 
+for xi=1:m
+    ci=idx(xi);
+    centroids(ci,:) = centroids(ci,:) + X(xi,:);
+    centroids_count(ci) = centroids_count(ci) + 1; 
+end
 
-
-
+centroids = centroids ./ centroids_count;
 
 
 

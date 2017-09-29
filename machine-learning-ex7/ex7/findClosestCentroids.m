@@ -21,9 +21,17 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
-
-
-
+for xi=1:size(X,1)
+    min_dist = 100000;
+    for ci=1:K
+        % euclidean distance between 2 vectors
+        dist = sum((X(xi,:)-centroids(ci,:)).^2);
+        if dist < min_dist
+            min_dist = dist;
+            idx(xi) = ci;
+        end
+    end
+end
 
 
 
