@@ -24,15 +24,22 @@ for epsilon = min(pval):stepsize:max(pval)
     %       of 0's and 1's of the outlier predictions
 
 
+    % true positives: the ground truth label says it’s an anomaly and
+    % our algorithm correctly classified it as an anomaly.
+    tp = sum((yval == 1) & (pval <= epsilon));
+    
+    % false positives: the ground truth label says it’s not an anomaly,
+    % but our algorithm incorrectly classified it as an anomaly.
+    fp = sum((yval == 1) & (pval > epsilon));
+    
+    % false negatives: the ground truth label says it’s an anomaly, but our
+    % algorithm incorrectly classified it as not being anomalous.
+    fn = sum((yval == 0) & (pval < epsilon));
 
-
-
-
-
-
-
-
-
+    % precision / recall
+    prec = tp / (tp + fp);
+    rec = tp / (tp + fn);
+    F1 = (2 * prec * rec) / (prec + rec);
 
 
     % =============================================================

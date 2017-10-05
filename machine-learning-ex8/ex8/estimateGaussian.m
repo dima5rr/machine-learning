@@ -21,12 +21,13 @@ sigma2 = zeros(n, 1);
 %               should contain variance of the i-th feature.
 %
 
+% calc mean per each feature
+mu = sum(X)/m;
 
-
-
-
-
-
+% calc variance
+xmu = X-mu;
+xmu2 = xmu.*xmu;
+sigma2 = sum(xmu2)'/m;
 
 
 

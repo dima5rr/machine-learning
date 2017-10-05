@@ -1,4 +1,4 @@
-%% Machine Learning Online Class
+    %% Machine Learning Online Class
 %  Exercise 8 | Anomaly Detection and Collaborative Filtering
 %
 %  Instructions

@@ -40,23 +40,37 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+% nu = number of users
+% nm = number of movies
+% r(i,j)=1 if user j has rated movie i
+% y(i,j)= rating given by user j to movie i (defined only if r(i,j)=1)
 
+% accumulating the cost for user j and movie i only if R(i,j) = 1.
+f = (X*Theta' - Y).^2 .* R;
+J = sum(sum(f)) / 2;
+regularization_theta = sum(sum(Theta.*Theta))*lambda/2;
+regularization_x = sum(sum(X.*X))*lambda/2;
+J = J+regularization_theta+regularization_x;
 
+% gradient (j=1..n - sum users rated that movie)
+% *R - to sum only rated movies
+for k=1:num_features
+    regularization_x = X(:,k)*lambda;
+    X_grad(:,k) = ((X*Theta' - Y).* R)*Theta(:,k) + regularization_x;
+end
 
-
-
-
-
-
-
-
-
+% theta (i=1..n - sum movies rated by user)
+% *R - to sum only rated movies
+for k=1:num_features
+    regularization_theta = Theta(:,k)*lambda;
+    Theta_grad(:,k) = ((X*Theta' - Y).* R)'*X(:,k) + regularization_theta;    
+end
 
 
 
 
 % =============================================================
 
-grad = [X_grad(:); Theta_grad(:)];
+ grad = [X_grad(:); Theta_grad(:)];
 
 end
